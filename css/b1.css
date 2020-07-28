@@ -1,0 +1,144 @@
+/*
+core
+*/
+
+.core {
+    display: flex;
+    flex-flow: column;
+    color:black;
+}
+
+/*
+home
+*/
+
+.banner {
+    background: #FFFFFF;
+    display: flex;
+    flex-flow: row;
+    min-height: 200px;
+    box-shadow: 0 0 2px 0 rgb(125, 125, 125);
+}
+
+.sub-banners {
+    background: #FFFFFF;
+    display: flex;
+    flex-flow: column;
+    margin: 10px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 2px 0 rgb(125, 125, 125);
+}
+
+.sub-banners > img {
+    width: 100%;
+    height: 75%;
+}
+
+.sub-banners > text {
+    color: black;
+    font-weight: bolder;
+    font-size: 34px;
+    padding: 10px;
+}
+
+.sub-banners:nth-of-type(1) > text {
+    color: #ff5b4f;
+    border-top: 3px solid #ff5b4f;
+}
+
+.sub-banners:nth-of-type(2) > text {
+    color: #0091ff;
+    border-top: 3px solid #0091ff;
+}
+
+.sub-banners:nth-of-type(3) > text {
+    color: #29c42c;
+    border-top: 3px solid #29c42c;
+}
+
+.sub-banners:hover > img {
+    animation: .25s subbannerstext forwards;
+}
+
+.sub-banners:not(:hover) > img {
+    animation: .25s reversesubbannerstext forwards;
+}
+
+@keyframes subbannerstext {
+    0% {
+        letter-spacing: 0px;
+    }
+    100% {
+        letter-spacing: 1px;
+        transform: scale(1.05);
+    }
+}
+
+@keyframes reversesubbannerstext {
+    0% {
+        transform: scale(1.05);
+    }
+    100% {
+    }
+}
+
+.lower {
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    color: black;
+}
+
+.sub-lower {
+    color: white;
+    background: #0091ff;
+    display: flex;
+    flex-flow: column;
+    margin: 10px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 2px 0 rgb(125, 125, 125);
+}
+
+.sub-lower > text {
+    color: white;
+    font-size: 34px;
+    font-weight: bolder;
+    padding: 10px;
+}
+
+.sub-lower > p {
+    padding: 10px;
+    font-size: 18px;
+}
+
+@media screen and (max-width: 740px) {
+    .banner {
+        flex-flow: row;
+        min-height: 0;
+    }
+
+    .sub-banners {
+        margin: 5px;
+    }
+
+    .sub-banners > text {
+        font-size: 21px
+    }
+
+    .sub-banners > img {
+        height: 70%;
+        width: 100%;
+        transform: scale(1);
+    }
+    
+    .sub-lower {
+        margin: 10px 5px 10px 5px
+    }
+}
+
+/*
+home
+*/

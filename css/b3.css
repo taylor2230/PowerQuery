@@ -1,0 +1,243 @@
+/*
+user home
+*/
+
+.documents {
+    display: flex;
+    flex-flow: column;
+    margin: 10px;
+    width: 100%;
+    max-height: 400px;
+    overflow: auto;
+}
+
+.documents > span {
+    color: rgb(125, 125, 125);
+    font-size: 30px;
+    width: 90%;
+}
+
+.documents-list {
+    list-style: none;
+    margin-left: 15px;
+}
+
+.documents-list > a {
+    text-decoration: none;
+    color: #0079d3;
+}
+
+/*
+user settings
+*/
+
+.settings {
+    background: #FFFFFF;
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    top: 15px;
+    margin: 10px;
+    margin-left: 25%;
+    margin-right: 25%;
+    border-radius: 10px;
+    box-shadow: 0 0 2px 0 rgb(125, 125, 125);
+}
+
+.settings > span {
+    align-self: center;
+}
+.settings > button {
+    color: #0091ff;
+    background: white;
+    font-size: 20px;
+    margin: 5px;
+    padding: 5px;
+    padding-left: 8%;
+    padding-right: 8%;
+    border: 1px solid #0091ff;
+    border-radius: 6px;
+}
+
+.settings > button:active {
+    background: #0079d3;
+    color: white;
+}
+
+/* 
+admin 
+*/
+
+.banner-dashboard {
+    background: #FFFFFF;
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+    justify-content: space-evenly;
+    box-shadow: 0 0 2px 0 rgb(125, 125, 125);;
+}
+
+.dashboard {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    margin: 10px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 2px 0 rgb(125, 125, 125);
+}
+
+.dashboard > span {
+    color: black;
+    font-size: 32px;
+    font-weight: bolder;
+    margin: 10px;
+}
+
+.dashboard > text {
+    width: 100%;
+    color: black;
+    font-weight: bolder;
+    font-size: 32px;
+    padding: 10px;
+}
+
+.dashboard:nth-of-type(1) > text {
+    color: #ff5b4f;
+}
+
+.dashboard:nth-of-type(1) > span {
+    color: #ff5b4f;
+}
+
+.dashboard:nth-of-type(2) > text {
+    color: #0091ff;
+}
+
+.dashboard:nth-of-type(2) > span {
+    color: #0091ff;
+}
+
+.dashboard:nth-of-type(3) > text {
+    color: #29c42c;
+}
+
+.dashboard:nth-of-type(3) > span {
+    color: #29c42c;
+}
+
+.lower-admin {
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    color: black;
+    margin: 10px;
+}
+
+.lower-admin > span {
+    color: rgb(125, 125, 125);
+    font-size: 30px;
+    font-weight: bolder;
+    padding: 10px;
+    margin: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.lower-dashboard {
+    background: #FFFFFF;
+    display: flex;
+    padding: 10px;
+    margin: 10px;
+    flex-wrap: wrap;
+    border-radius: 6px;
+    box-shadow: 0 0 2px 0 rgb(125, 125, 125);
+}
+
+.predefined {
+    background: #FFFFFF;
+    color: #0091ff;
+    background: white;
+    font-size: 16px;
+    margin: 5px;
+    padding: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid #0091ff;
+    border-radius: 6px;
+}
+
+.predefined:active {
+    background: #0091ff;
+    color: white;
+}
+
+.query-text {
+    font-size: 16px;
+    color: #ff5b4f;
+    padding-left: 5px;
+    margin: 10px;
+    margin-top: 0;
+    min-height: 65px;
+    height: 100%;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 0 2px 0 rgb(125, 125, 125);
+}
+
+.submit {
+    color: #0091ff;
+    background: white;
+    font-size: 20px;
+    margin: 10px;
+    margin-top: 0;
+    padding: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid #0091ff;
+    border-radius: 6px;
+}
+
+.submit:active {
+    background: #0091ff;
+    color: white;
+}
+
+.information {
+    background: #FFFFFF;
+    display: flex;
+    padding: 10px;
+    margin: 0 20px 0 20px;
+    flex-wrap: wrap;
+    border-radius: 6px;
+    box-shadow: 0 0 2px 0 rgb(125, 125, 125);
+    border-collapse: collapse;
+}
+
+.tbl-row > td {
+    color: rgb(125, 125, 125);
+    padding: 10px;
+    border-bottom: 1px solid rgb(219, 219, 219);
+
+}
+
+@media screen and (max-width: 740px) {
+    .settings {
+        margin: 10px;    
+    }
+    
+    .dashboard > span {
+        font-size: 20px;
+    }
+
+    .dashboard > text {
+        font-size: 20px;
+    }
+    
+    .query-text {
+        min-height: 100px;
+    }
+}
