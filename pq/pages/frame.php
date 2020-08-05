@@ -72,9 +72,9 @@ class Framer
         return "<button class='{$class}' type='submit' onclick='data(\"body\",\"" . $type . "\",\"pq/Controller.php\")'>Submit</button>";
     }
 
-    function customButton($type, $class, $label)
+    function customButton($class, $label)
     {
-        return "<button class='{$class}' type='submit' onclick='data(\"body\",\"" . $type . "\",\"pq/Controller.php\")'>{$label}</button>";
+        return "<button class='{$class}' type='submit' onclick='buildRequest();'>{$label}</button>";
     }
 
 }
@@ -89,14 +89,14 @@ class VisualizationFrame extends Framer
     function pqBar()
     {
         $html = "<div class='data-group'><label class='data-label' for='1'>1</label>
-                    <input class='data-box' id='1' type='text' name='1' autocomplete='no' placeholder='Field Name'>
-                    <input class='data-box' id='1' type='number' name='1' autocomplete='no' placeholder='Value'></div>";
+                    <input class='data-box' id='1' type='text' name='1' autocomplete='no' placeholder='<group>'>
+                    <input class='data-box' id='1' type='number' name='1' autocomplete='no' placeholder='<number>'></div>";
         $html .= "<div class='data-group'><label class='data-label' for='2'>2</label>
-                    <input class='data-box' id='2' type='text' name='2' autocomplete='no' placeholder='Field Name'>
-                    <input class='data-box' id='2' type='number' name='2' autocomplete='no' placeholder='Value'></div>";
+                    <input class='data-box' id='2' type='text' name='2' autocomplete='no' placeholder='<group>'>
+                    <input class='data-box' id='2' type='number' name='2' autocomplete='no' placeholder='<number>'></div>";
         $html .= "<div class='data-group'><label class='data-label' for='3'>3</label>
-                    <input class='data-box' id='3' type='text' name='3' autocomplete='no' placeholder='Field Name'>
-                    <input class='data-box' id='3' type='number' name='3' autocomplete='no' placeholder='Value'></div>";
+                    <input class='data-box' id='3' type='text' name='3' autocomplete='no' placeholder='<group>'>
+                    <input class='data-box' id='3' type='number' name='3' autocomplete='no' placeholder='<number>'></div>";
         return $html;
     }
 
@@ -113,20 +113,20 @@ class VisualizationFrame extends Framer
     function vizOpt()
     {
         $html = "  <select class='pq-opts' onchange='assist()'>
-                        <option disabled selected value> -- select an option -- </option>
+                        <option disabled selected value> select a visual </option>
                         <optgroup label='Bar Charts'>
                             <option value='generic-bar'>Bar Chart</option>
                             <option value='stacked-bar'>Stacked Bar Chart</option>
                             <option value='stacked--hor-bar'>Stacked Horizontal Bar Chart</option>
                             <option value='horizontal-bar'>Horizontal Bar Chart</option>
-                            <option value='zoombale-bar'>Zoombable Bar Chart</option>
+                            <option value='zoomable-bar'>Zoombable Bar Chart</option>
                         </optgroup>
                         <optgroup label='Line Charts'>
                             <option value='generic-line'>Line Chart</option>
                         </optgroup>
                         <optgroup label='Pie Charts'>
                             <option value='generic-pie'>Pie Chart</option>
-                            <option value='generic-pie'>Donut Chart</option>
+                            <option value='donut-pie'>Donut Chart</option>
                         </optgroup>
                   </select>";
         return $html;
@@ -144,9 +144,9 @@ class Login extends Framer
     function accessForm()
     {
         $html = "<div class='form-group'><label class='form' for='username'>Username</label>
-                    <input class='form-box' id='username' type='text' name='username' autocomplete='username'></div>";
+                    <input class='form-box' id='username' type='text' name='username' autocomplete='username' required></div>";
         $html .= "<div class='form-group'><label class='form' for='password'>Password</label>
-                    <input class='form-box' id='password' type='password' name='password' autocomplete='password'></div>";
+                    <input class='form-box' id='password' type='password' name='password' autocomplete='password' required></div>";
         return $html;
     }
 }
@@ -161,7 +161,7 @@ class Register extends Login
     function extendedForm()
     {
         $html = "<div class='form-group'><label class='form' for='email'>Email</label>
-                    <input class='form-box' id='email' type='email'></div>";
+                    <input class='form-box' id='email' type='email' required></div>";
         $html .= $this->accessForm();
         return $html;
     }

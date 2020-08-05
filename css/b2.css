@@ -25,6 +25,7 @@ login
 }
 
 .form-box {
+    color: rgb(125,125,125);
     height: 25px;
     font-size: 14px;
     margin-top: 5px;

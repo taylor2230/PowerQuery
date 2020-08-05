@@ -14,13 +14,13 @@ function visualizer()
     $site .= $buildRails->cmdButton("pq-cmd", "Add Column", 1);
     $site .= $buildRails->cmdButton("pq-cmd", "Edit Data", -1);
     $site .= $buildRails->wrapperEnd();
-    $site .= $buildRails->button("visualize", "pq-viz");
-    $site .= $buildRails->customButton("saveData", "pq-viz", "Save");
+    $site .= $buildRails->customButton("pq-viz", "Save");
+    $site .= $buildRails->customButton("pq-viz", "Build");
     $site .= $buildRails->wrapperEnd();
     $site .= $buildRails->wrapperEnd();
 
     $site .= $buildRails->wrapperStart("pq-area");
-    $site .= "<div class='warning'>Select an Option for How-To Information</div>";
+    $site .= "<div class='warning'>Select a Chart for Data Requirements</div>";
     $site .= $buildRails->wrapperEnd();
 
     $site .= $buildRails->wrapperEnd();

@@ -13,7 +13,7 @@ function mightyMorphin()
     $site .= $buildRails->registeredUsers(zordon());
     $site .= $buildRails->systemSpace();
     $site .= "</div>";
-    $site .= "<div class='lower-admin'><span>Quick{Query}</span>";
+    $site .= "<div class='lower-admin'><span>quick{Query}</span>";
     $site .= "<div class='lower-dashboard'>";
     $site .= $buildRails->control("List Admins", 0);
     $site .= $buildRails->control("Add Admin", 1);

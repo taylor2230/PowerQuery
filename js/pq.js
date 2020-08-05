@@ -78,7 +78,7 @@ function dataModify(request)
                 const colChildren = col[0].children;
                 let activeCnt = 0;
                 for(let i = 0;i < colChildren.length;i++) {
-                    if (activeCnt < colChildren.length && colChildren[i].checked) {
+                    if (activeCnt < colChildren.length-1 && colChildren[i].checked) {
                         activeCnt++;
                         for (let y = 0; y < list.length; y++) {
                             list[y].children[activeCnt + 1].remove();
@@ -88,17 +88,24 @@ function dataModify(request)
                 col[0].remove();
             }
 
-            for(let i = 0;i < list.length; i++) {
+            let cnt = 0;
+            for(let i = list.length-1;i >= 0; i--) {
                let rowChildren = list[i].children;
-               if(rowChildren[0].checked) {
+               if(rowChildren[0].checked && cnt < list.length-1) {
+                   cnt++;
                    nodeRemove.push(list[i])
                } else {
                    rowChildren[0].remove();
                }
             }
-            let cnt = 0;
+
+            cnt = 0;
             while(nodeRemove.length > 0) {
-               nodeRemove[cnt].remove();
+                try {
+                    nodeRemove[cnt].remove();
+                } catch (e) {
+                    nodeRemove[cnt].remove();
+                }
                cnt++;
             }
 
@@ -112,9 +119,45 @@ function dataModify(request)
     }
 }
 
-class pq
+function buildRequest()
 {
-    constructor() {
+    const selected = document.getElementsByClassName("pq-opts")[0].value;
 
+    switch (selected) {
+        case "generic-bar":
+            let bChart = new Bar();
+            bChart.barChart();
+            break;
+        case "horizontal-bar":
+            let hChart = new HBar();
+            hChart.hBarChart();
+            break;
+        case "stacked-bar":
+            let sBar = new Sbar();
+            sBar.stackedChart();
+            break;
+        case "stacked--hor-bar":
+            let sHBar = new SHbar();
+            sHBar.stackedHorChart();
+            break;
+        case "zoomable-bar":
+            let zBar = new ZBar();
+            zBar.zoomBarChart();
+            break;
+        case "generic-line":
+            let lChart = new Line();
+            lChart.lineChart();
+            break;
+        case "generic-pie":
+            let pChart = new Pie();
+            pChart.pieChart();
+            break;
+        case "donut-pie":
+            let dPChart = new Donut();
+            dPChart.donutChart();
+            break;
+        default:
+            assist("fail");
+            break;
     }
 }

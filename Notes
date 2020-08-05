@@ -20,13 +20,11 @@ Req Steps:
     [ x ] JS and PHP to run query
 [  ] Visualization Page
     [ x ] Visualization Layout
-    [  ] Preset Charting Data Requirements (Priority for Phase 3)
+    [ x ] Preset Charting Data Requirements (Priority for Phase 3)
     [ x ] Add Row/Add Column/Edit Columns+Rows
     [  ] Save Data (Priority for Phase 3)
     [  ] Generate Visualization (Priority for Phase 4)
-    [  ] Export Visualization
     [  ] Reload Data
-    [  ] Delete Data
 [ x ] Logout Session
 
 Next Steps:
@@ -34,4 +32,8 @@ Next Steps:
 [  ] Bug Fixes
     [  ] No Query Data
     [  ] Empty JS Response
-    [  ] Enter Key on Submit spots
+    [  ] Enter Key for Submit
+    [  ] Sign-up required all fields
+    [ x ] Mobile Formatting for Charts
+[  ] Additional Features
+    [  ] Hamburger Menu in mobile

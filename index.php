@@ -16,6 +16,7 @@
     <script src="./js/commit.js"></script>
     <script src='./js/query.js'></script>
     <script src="./js/pq.js"></script>
+    <script src="./js/pqV.js"></script>
     <title>power{Query}: visualization for everyone</title>
 </head>
 <body id='body' onload="page('body','pq/Controller.php','main')">

@@ -54,8 +54,8 @@ user settings
     font-size: 20px;
     margin: 5px;
     padding: 5px;
-    padding-left: 8%;
-    padding-right: 8%;
+    padding-left: 10%;
+    padding-right: 10%;
     border: 1px solid #0091ff;
     border-radius: 6px;
 }
@@ -230,14 +230,18 @@ admin
     }
     
     .dashboard > span {
-        font-size: 20px;
+        font-size: 18px;
     }
 
     .dashboard > text {
-        font-size: 20px;
+        font-size: 19px;
     }
     
     .query-text {
         min-height: 100px;
+    }
+    
+    .tbl-row > td {
+        font-size: 12px;
     }
 }

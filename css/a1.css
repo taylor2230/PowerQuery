@@ -60,6 +60,7 @@ a {
 }
 
 .nav-home {
+    font-weight: bolder;
     color: white;
     padding-right: 5px;
 }
