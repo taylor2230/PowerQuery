@@ -143,11 +143,7 @@ pq
 .pq-area {
     background: #FFFFFF;
     position: relative;
-    display: flex;
     margin: 10px;
-    margin-left: 0;
-    width: 100%;
-    padding-bottom: 10px;
     border-radius: 10px;
     box-shadow: 0 0 2px 0 rgb(125, 125, 125); 
 }
@@ -155,6 +151,7 @@ pq
 .line {
     width: 100%;
     height: 100%;
+    min-width: 325px;
 }
 
 .line > * {
@@ -169,13 +166,33 @@ pq
     opacity: .66;
 }
 
-.hbar, .gbar {
+.hbar, .gbar, .sbar {
     display: inline-block;
     position: relative ;
     height: 100%;
     width: 100%;
+    min-width: 325px;
+    padding-left: 2%;
+}
+
+.hbar {
+    width: 50%;
     padding-left: 6%;
-    padding-bottom: 1%;
+    padding-bottom:6%;
+}
+
+.sbar {
+    padding-left: 6%;
+    padding-bottom:6%;
+    height: 90%;
+    width: 85%
+}
+
+.shbar {
+    padding: 2%;  
+    width: 100%;
+    height:100%;
+    min-width: 375px;
 }
 
 .rectangle {
@@ -187,10 +204,10 @@ pq
 }
 
 .pie, .dpie {
-    display: inline-block;
-    position: relative ;
+    position: relative;
     height: 100%;
-    width: 100%;
+    width: 50%;
+    min-width: 335px;
     margin: 1%;
 }
 
@@ -215,7 +232,7 @@ pq
     
     .data-group {
         justify-content: left;
-        flex-flow: column;
+        flex-flow: row;
     }
     
     .data-box {
@@ -234,9 +251,19 @@ pq
 
     .pq-area {
         width: auto;
-        padding: 0;
         margin: 10px;
         margin-bottom: 0;
+    }
+    
+    .pie, .dpie, .hbar, .gbar, .line {
+        min-width: 0;
+        width: 100%;
+        padding-bottom: 0;
+    }
+    
+    .hbar, .sbar {
+        width: 85%;
+        padding-bottom: 30px;
     }
     
 }

@@ -14,7 +14,7 @@ function visualizer()
     $site .= $buildRails->cmdButton("pq-cmd", "Add Column", 1);
     $site .= $buildRails->cmdButton("pq-cmd", "Edit Data", -1);
     $site .= $buildRails->wrapperEnd();
-    $site .= $buildRails->customButton("pq-viz", "Save");
+    $site .= $buildRails->save("pq-viz", "Save");
     $site .= $buildRails->customButton("pq-viz", "Build");
     $site .= $buildRails->wrapperEnd();
     $site .= $buildRails->wrapperEnd();

@@ -21,8 +21,8 @@ class UserContent
             $html = "<div class='documents'>";
             $html .= "<span>Saved Data</span>";
             for($i = 0; $i < count($documents);$i++) {
-                $html .= "<li class='documents-list'><a href='#opendocument' onclick='return false;'>" .
-                    $documents[$i][1] . " - " . $documents[$i][3] ."</a></li>";
+                $html .= "<li class='documents-list'><a href='#opendocument' onclick='reloadRequest(this)'>" .
+                    $documents[$i][2] . " - " . $documents[$i][4] ."</a></li>";
             }
             $html .= "</div>";
             return $html;

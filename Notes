@@ -20,20 +20,19 @@ Req Steps:
     [ x ] JS and PHP to run query
 [  ] Visualization Page
     [ x ] Visualization Layout
-    [ x ] Preset Charting Data Requirements (Priority for Phase 3)
+    [ x ] Preset Charting Data Requirements
     [ x ] Add Row/Add Column/Edit Columns+Rows
-    [  ] Save Data (Priority for Phase 3)
-    [  ] Generate Visualization (Priority for Phase 4)
-    [  ] Reload Data
+    [ x ] Generate Visualization
+    [ x ] Save Data
+    [ x ] Reload Data
+    [  ] Zoomable Bar Chart
 [ x ] Logout Session
 
 Next Steps:
 
 [  ] Bug Fixes
-    [  ] No Query Data
-    [  ] Empty JS Response
-    [  ] Enter Key for Submit
-    [  ] Sign-up required all fields
+    [ x ] Sign-up required all fields (Priority for Sunday)
     [ x ] Mobile Formatting for Charts
-[  ] Additional Features
-    [  ] Hamburger Menu in mobile
+[ x ] Additional Features
+    [ x ] Hamburger Menu in mobile || Show/Hide Button (Priority for Saturday)
+    [  ] Enter Key for Submit

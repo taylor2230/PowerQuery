@@ -20,6 +20,7 @@ class Framer
         $html .= "<rect y='40' width='50' height='10' fill='white'></rect>";
         $html .= "</svg>";
         $html .= "<a class='nav-home' target='_self' href='#home' onclick='page(\"body\",\"pq/Controller.php\",\"main\")'>power{Query}</a>";
+        $html .= "<button class='nav-control' onclick='mobileMenu()'>▼</button>";
         $html .= "</div>";
         $html .= "<a class='nav-link' target='_self' href='#visualize' onclick='page(\"core\",\"pq/Controller.php\",\"pq\")'>Visualize</a>";
         $html .= "<a class='nav-link' target='_self' href='#login' onclick='page(\"core\",\"pq/Controller.php\",\"siteLogin\")'>LOGIN</a>";
@@ -40,7 +41,8 @@ class Framer
         $html .= "<rect y='40' width='50' height='10' fill='white'></rect>";
         $html .= "</svg>";
         $html .= "<a class='nav-home' target='_self' href='#home' onclick='page(\"body\",\"pq/Controller.php\",\"main\")'>power{Query}</a>";
-        $html .= "</div>";
+
+        $html .= "<button class='nav-control' onclick='mobileMenu()'>▼</button></div>";
         $html .= "<span class='active-user'>Welcome: $user</span>";
         $html .= "<a class='nav-link' target='_self' href='#home' onclick='page(\"body\",\"pq/Controller.php\",\"main\")'>Home</a>";
         $html .= "<a class='nav-link' target='_self' href='#visualize' onclick='page(\"core\",\"pq/Controller.php\",\"pq\")'>Visualize</a>";
@@ -100,14 +102,14 @@ class VisualizationFrame extends Framer
         return $html;
     }
 
-    function vizArea()
-    {
-
-    }
-
     function cmdButton($class, $label, $num)
     {
         return "<button class='{$class}' type='submit' onclick='dataModify($num)'>{$label}</button>";
+    }
+
+    function save($class, $label)
+    {
+        return "<button class='{$class}' type='submit' onclick='saveRequest();'>{$label}</button>";
     }
 
     function vizOpt()

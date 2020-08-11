@@ -13,11 +13,49 @@ class Data {
             return "len"
         }
 
-        for (let i = 0; i < d.length; i++) {
-            let children = d[i].children;
-            if (children.length > 3) {
-                this.newJson.push(this.hierarchyJson(children));
-            } else {
+        if (d[0].children.length > 3) {
+            let temp = [];
+            for (let i = 0; i < d.length; i++) {
+                let children = d[i].children;
+                temp.push(this.hierarchyJson(children));
+            }
+
+            let len = temp.length - 1;
+            while (temp.length > 0) {
+                let pKeys = Object.keys(temp[len]);
+                let group = pKeys[0], subgroup = pKeys[1];
+                for (let i = 0; i < temp.length; i++) {
+                    let pKeys2 = Object.keys(temp[i]);
+                    let group2 = pKeys2[0], subgroup2 = pKeys2[1];
+
+                    try {
+                        if (temp[len][group] === temp[i][group2] && subgroup !== subgroup2) {
+                            temp[len][subgroup2] = temp[i][subgroup2];
+                            temp.splice(i, 1);
+                        }
+                    } catch (e) {
+                        console.log("data catch");
+                    }
+                }
+
+                if (temp[len] !== undefined) {
+                    let sum = function (d) {
+                        let keys = Object.keys(d);
+                        let total = 0;
+                        for (let z = 1; z < keys.length; z++) {
+                            total += parseFloat(d[keys[z]]);
+                        }
+                        return total;
+                    };
+                    temp[len].cnt = sum(temp[len]);
+                    this.newJson.push(temp[len]);
+                }
+                temp.splice(len, 1);
+                len--;
+            }
+        } else {
+            for (let i = 0; i < d.length; i++) {
+                let children = d[i].children;
                 let jsonData = {};
                 jsonData["name"] = children[1].value;
                 jsonData["value"] = parseFloat(children[2].value);
@@ -29,27 +67,77 @@ class Data {
     }
 
     hierarchyJson(d) {
-        let childData = d;
+        let nameCnt = 0;
         let childJson = {};
+        for (let i = 1; i < d.length - 1; i++) {
+            if (i === 1) {
+                childJson.group = d[i].value;
+            } else {
+                childJson[d[i].value] = d[i + 1].value;
+            }
+            nameCnt++;
+        }
         return childJson;
     }
-
 }
 
 class SaveData extends Data {
     constructor() {
         super();
+        this.name = "";
     }
 
-    sendData() {
-        return null;
+    description() {
+        this.name = prompt("Enter the file name:");
+    }
+
+    details() {
+        let userData = [];
+        let chart = document.getElementsByClassName("pq-opts")[0].value;
+        let data = super.buildJson();
+        this.description();
+        userData.push(this.name);
+        userData.push(chart);
+        userData.push(data);
+        return userData;
+    }
+
+    data(element, type, page) {
+        const ajax = new User(element, type);
+        let content = this.details();
+        ajax.formSet("page", type);
+        ajax.formSet("data", JSON.stringify(content));
+        ajax.provideUpdate(page);
+    }
+
+}
+
+class ReloadData extends Data {
+    constructor(d, n) {
+        super();
+        this.data = [d,n];
+    }
+
+    grabData(element, type, page) {
+        const ajax = new User(element, type);
+        let content = this.data;
+        ajax.formSet("page", type);
+        ajax.formSet("data", JSON.stringify(content));
+        return ajax.requestUpdate(page);
+    }
+
+    requestPage(element, type, page) {
+        const ajax = new User(element, type);
+        ajax.formSet("page", type);
+        ajax.makeRequest(page);
     }
 
 }
 
 class PqV {
-    constructor() {
+    constructor(ov) {
         this.data = new Data();
+        this.ov = ov;
         this.home = document.getElementsByClassName("pq-area")[0];
         this.width = 0;
         this.height = 0;
@@ -72,11 +160,16 @@ class PqV {
     }
 
     toJSON() {
-        const d = this.data.buildJson();
-        if (d === "len") {
-            this.displayError("len");
+
+        if(this.ov !== undefined) {
+            return this.ov;
         } else {
-            return d;
+            const d = this.data.buildJson();
+            if (d === "len") {
+                this.displayError("len");
+            } else {
+                return d;
+            }
         }
     }
 
@@ -97,11 +190,9 @@ class PqV {
     svgCreate(a, b, c, d) {
         return d3.select('.pq-area')
             .append('svg')
-            .attr('height', this.height - this.margin.top - this.margin.bottom)
-            .attr('width', this.width - this.margin.left - this.margin.right)
             .attr("viewBox", [a, b, c, d])
             .attr('class', 'pq-chart')
-            .attr('preserveAspectRatio', 'xMidYMid meet');
+            .attr('preserveAspectRatio', 'xMinYMin meet');
     }
 
     genericChart() {
@@ -124,8 +215,8 @@ class PqV {
 }
 
 class Bar extends PqV {
-    constructor() {
-        super();
+    constructor(d) {
+        super(d);
     }
 
     xScale(d) {
@@ -150,15 +241,15 @@ class Bar extends PqV {
         });
         const max = super.maxValue(data);
         let svg;
-        if(max > 9999999) {
+        if (max > 9999999) {
             svg = super.svgCreate(-95, 0, 975, this.height);
-        }else if(max > 999999) {
+        } else if (max > 999999) {
             svg = super.svgCreate(-65, 0, 925, this.height);
-        } else if(max > 99999) {
+        } else if (max > 99999) {
             svg = super.svgCreate(-50, 0, 890, this.height);
-        } else if(max > 9999) {
+        } else if (max > 9999) {
             svg = super.svgCreate(-45, 0, 875, this.height);
-        } else if(max > 999) {
+        } else if (max > 999) {
             svg = super.svgCreate(-35, 0, 875, this.height);
         } else {
             svg = super.svgCreate(0, 0, 820, this.height);
@@ -168,8 +259,6 @@ class Bar extends PqV {
         const y = this.yScale(data);
 
         svg
-            .attr('height', "100%")
-            .attr('width', "100%")
             .attr('class', 'gbar')
             .append('g')
             .selectAll('rect')
@@ -203,8 +292,8 @@ class Bar extends PqV {
 }
 
 class HBar extends Bar {
-    constructor() {
-        super();
+    constructor(d) {
+        super(d);
     }
 
     hBarChart() {
@@ -217,7 +306,7 @@ class HBar extends Bar {
             return d3.descending(a.value, b.value);
         });
 
-        const svg = super.svgCreate(-50, 0, this.width+75, this.width);
+        const svg = super.svgCreate(-50, 0, this.width + 75, this.width);
 
         const x = d3.scaleLinear()
             .domain([0, super.maxValue(data)])
@@ -229,7 +318,6 @@ class HBar extends Bar {
             .padding(0.1);
 
         svg
-            .attr("width", "100%")
             .attr('class', 'hbar')
             .append('g')
             .attr('fill', 'royalblue')
@@ -246,7 +334,7 @@ class HBar extends Bar {
             .attr('onmouseover', "console.log(this.id)");
 
         function xAxis(g) {
-            g.attr('transform', 'translate(0, 775)')
+            g.attr('transform', 'translate(0, 825)')
                 .call(d3.axisBottom(x).ticks(3))
                 .attr('font-size', '20px')
         }
@@ -264,22 +352,244 @@ class HBar extends Bar {
 }
 
 class Sbar extends Bar {
-    constructor() {
-        super();
+    constructor(d) {
+        super(d);
+    }
+
+    colors() {
+        return ['#483C46', '#3C6E71', '#70AE6E', '#BEEE62', '#F4743B', '#2176AE', '#57B8FF', '#B66D0D', '#FBB13C', '#FE6847'];
     }
 
     stackedChart() {
+        super.clearArea();
+        super.genericChart();
+
+        const data = super.toJSON();
+
+        let svg = super.svgCreate(0, 0, 830, this.height);
+        svg.attr('class', 'sbar');
+
+        let col = d3.keys(data[0]);
+        let values = col.slice(1,col.length-1);
+
+        let x = d3.scaleBand()
+            .rangeRound([0, this.width-85])
+            .paddingInner(0.05)
+            .align(0.1);
+
+        let y = d3.scaleLinear()
+            .rangeRound([this.height, 0]);
+
+        let z = d3.scaleOrdinal()
+            .range(this.colors());
+
+        data.sort((a, b) => {
+            return b.total - a.total
+        });
+
+        x.domain(data.map((d, i) => {
+            return i;
+        }));
+
+        y.domain([0, d3.max(data, function (d) {
+            return d.cnt;
+        })]).nice();
+
+        z.domain(values);
+
+        let g = svg.append('g').attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+
+        g.append('g')
+            .selectAll('g')
+            .data(d3.stack().keys(values)(data))
+            .enter().append('g')
+            .attr('fill', d => {
+                return z(d.key)
+            })
+            .selectAll('rect')
+            .data(d => {
+                return d;
+            })
+            .enter().append('rect')
+            .attr("x", function (d, i) {
+                return x(i);
+            })
+            .attr("y", function (d) {
+                return y(d[1]);
+            })
+            .attr("height", function (d) {
+                return y(d[0]) - y(d[1]);
+            })
+            .attr("width", x.bandwidth());
+
+        g.append("g")
+            .attr("class", "axis")
+            .attr("font-size", 14)
+            .attr("transform", "translate(0," + this.height + ")")
+            .call(d3.axisBottom(x).tickFormat(function(d,i) {
+                return data[i].group}));
+
+        g.append("g")
+            .attr("class", "axis")
+            .call(d3.axisLeft(y).ticks(null, "s"))
+            .append("text")
+            .attr("x", 2)
+            .attr("y", y(y.ticks().pop()) + 0.5)
+            .attr("dy", "0.32em")
+            .attr("fill", "#000")
+            .attr("font-weight", "bold")
+            .attr("text-anchor", "start");
+
+        let legend = g.append("g")
+            .attr("font-size", 12)
+            .attr("text-anchor", "end")
+            .selectAll("g")
+            .data(values.slice().reverse())
+            .enter().append("g")
+            .attr("transform", function (d, i) {
+                return "translate(0," + i * 20 + ")";
+            });
+
+        legend.append("rect")
+            .attr("x", this.width - 19)
+            .attr("width", 19)
+            .attr("height", 19)
+            .attr("fill", z);
+
+        legend.append("text")
+            .attr("x", this.width - 24)
+            .attr("y", 9.5)
+            .attr("dy", "0.32em")
+            .text(function (d) {
+                return d;
+            });
+
+        svg.node();
 
     }
 
 }
 
 class SHbar extends Bar {
-    constructor() {
-        super();
+    constructor(d) {
+        super(d);
+    }
+
+    colors() {
+        return ['#483C46', '#3C6E71', '#70AE6E', '#BEEE62', '#F4743B', '#2176AE', '#57B8FF', '#B66D0D', '#FBB13C', '#FE6847'];
     }
 
     stackedHorChart() {
+        super.clearArea();
+        super.setHeight(400);
+        super.setWidth(800);
+        super.setMargin(0, 0, 25, 45);
+
+        const data = super.toJSON();
+
+        let svg = super.svgCreate(-50, 0, this.width + 75, this.height);
+        svg.attr('class', 'shbar');
+
+        let col = d3.keys(data[0]);
+        let values = col.slice(1,col.length-1);
+
+        let x = d3.scaleLinear()
+            .rangeRound([this.width-this.margin.right, 0]);
+
+        let y = d3.scaleBand()
+            .rangeRound([0, this.height])
+            .paddingInner(0.05)
+            .align(0.1);
+
+        let z = d3.scaleOrdinal()
+            .range(this.colors());
+
+        data.sort((a, b) => {
+            return b.total - a.total
+        });
+
+        y.domain(data.map((d, i) => {
+            return i;
+        }));
+
+        x.domain([d3.max(data, function (d) {
+            return d.cnt;
+        }), 0]).nice();
+
+        z.domain(values);
+
+        let g = svg.append('g').attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+
+        g.append('g')
+            .selectAll('g')
+            .data(d3.stack().keys(values)(data))
+            .enter().append('g')
+            .attr('fill', d => {
+                return z(d.key)
+            })
+            .selectAll('rect')
+            .data(d => {
+                return d;
+            })
+            .enter().append('rect')
+            .attr("y", function (d, i) {
+                return y(i);
+            })
+            .attr("x", function (d) {
+                return x(d[0]);
+            })
+            .attr("width", function (d) {
+                return x(d[1]) - x(d[0]);
+            })
+            .attr("height", y.bandwidth());
+
+        g.append("g")
+            .attr("class", "axis")
+            .attr("font-size", 16)
+            .attr("transform", "translate(0," + this.height + ")")
+            .call(d3.axisBottom(x).ticks(null, "s"));
+
+
+        g.append("g")
+            .attr("class", "axis")
+            .attr("font-size", 16)
+            .call(d3.axisLeft(y).tickFormat(function(d,i) {
+                return data[i].group}))
+            .append("text")
+            .attr("y", 2)
+            .attr("x", x(x.ticks().pop()) + 0.5)
+            .attr("dy", "0.32em")
+            .attr("fill", "#000")
+            .attr("font-weight", "bold")
+            .attr("text-anchor", "start");
+
+        let legend = g.append("g")
+            .attr("class", "legend")
+            .attr("font-size", 12)
+            .attr("text-anchor", "end")
+            .selectAll("g")
+            .data(values.slice().reverse())
+            .enter().append("g")
+            .attr("transform", function (d, i) {
+                return "translate(0," + i * 20 + ")";
+            });
+
+        legend.append("rect")
+            .attr("x", this.width)
+            .attr("width", 19)
+            .attr("height", 19)
+            .attr("fill", z);
+
+        legend.append("text")
+            .attr("x", this.width-5)
+            .attr("y", 9.5)
+            .attr("dy", "0.32em")
+            .text(function (d) {
+                return d;
+            });
+
+        svg.node();
+
 
     }
 }
@@ -296,8 +606,8 @@ class ZBar extends Bar {
 }
 
 class Pie extends PqV {
-    constructor() {
-        super();
+    constructor(d) {
+        super(d);
     }
 
     colors() {
@@ -317,8 +627,6 @@ class Pie extends PqV {
         const radius = Math.min(this.width, this.height) / 2;
 
         let g = svg
-            .attr("width", "100%")
-            .attr("height", "100%")
             .attr('class', 'pie')
             .append('g')
             .attr('transform', "translate(" + this.width / 2 + "," + this.height / 2 + ")");
@@ -364,8 +672,8 @@ class Pie extends PqV {
 }
 
 class Donut extends Pie {
-    constructor() {
-        super();
+    constructor(d) {
+        super(d);
     }
 
     donutChart() {
@@ -428,8 +736,8 @@ class Donut extends Pie {
 }
 
 class Line extends PqV {
-    constructor() {
-        super();
+    constructor(d) {
+        super(d);
     }
 
     maxX(d) {
@@ -447,7 +755,6 @@ class Line extends PqV {
         super.genericChart();
 
         const data = super.toJSON();
-
         let xAxis = d3.scaleLinear()
             .domain([0, this.maxX(data)])
             .range([0, this.width]);
@@ -467,21 +774,19 @@ class Line extends PqV {
         const max = super.maxValue(data);
 
         let svg;
-        if(max > 999999) {
+        if (max > 999999) {
             svg = super.svgCreate(-90, -12, 900, 455);
-        }else if(max > 99999) {
+        } else if (max > 99999) {
             svg = super.svgCreate(-75, -12, 900, 455);
-        } else if(max > 99) {
+        } else if (max > 99) {
             svg = super.svgCreate(-55, -12, 900, 455);
-        } else if(max > 9) {
+        } else if (max > 9) {
             svg = super.svgCreate(-45, -12, 900, 455);
         } else {
             svg = super.svgCreate(-35, -12, 850, 455);
         }
 
         svg
-            .attr('width', "100%")
-            .attr('height', "100%")
             .attr('class', 'line')
             .append('g')
             .attr('class', 'x-axis')

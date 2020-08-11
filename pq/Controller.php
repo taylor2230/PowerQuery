@@ -18,7 +18,8 @@ if (session_id() == '') {
     }
 }
 
-print $ctrl->$request($userData);
+$response = $ctrl->$request($userData);
+$response !== null ? print $response : null;
 
 class Controller
 {
@@ -130,6 +131,27 @@ class Controller
         } else {
             return limitedHome($_SESSION["isActive"]) . mightyMorphin();
         }
+    }
+
+    function saveData()
+    {
+        $data = json_decode([$_POST][0]["data"], true);
+        $blob = $data[1]. '~' . json_encode($data[2]);
+        $query = "INSERT INTO pq_user_files (username, description, data) VALUES('{$_SESSION['user'][0]}', '$data[0]', '{$blob}')";
+        $processor = new QueryTool();
+        $processor->insert($query);
+        $processor->close();
+        return null;
+    }
+
+    function fetchData()
+    {
+        $data = json_decode([$_POST][0]["data"], true);
+        $query = "SELECT data FROM pq_user_files WHERE username='{$_SESSION['user'][0]}' and description='{$data[0]}' and save_data='{$data[1]}'";
+        $processor = new QueryTool();
+        $response = $processor->fetch($query);
+        $processor->close();
+        return json_encode($response);
     }
 
     function processUserChange()

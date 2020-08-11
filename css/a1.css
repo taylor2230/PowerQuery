@@ -94,6 +94,26 @@ a {
     animation: .5s navlinkhover forwards;
 }
 
+span {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+}
+.nav-control {
+    position: absolute;
+    float: left;
+    right: 10px;
+    display: none;
+    color: #ffffff;
+    background: transparent;
+    font-size: 24px;
+    margin: 5px;
+    padding: 5px;
+    padding-left: 1%;
+    padding-right: 1%;
+    border: none;
+}
+
 @keyframes navlinkhover {
 
     100% {
@@ -115,7 +135,10 @@ a {
     .nav > span {
         border: none;
     }
-
+    
+    .nav-control {
+        display: block;
+    }
     .nav-link {
         width: 90%;
         margin: 0;
