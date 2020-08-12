@@ -25,7 +25,7 @@ Req Steps:
     [ x ] Generate Visualization
     [ x ] Save Data
     [ x ] Reload Data
-    [  ] Zoomable Bar Chart
+    [ x ] Zoomable Bar Chart
 [ x ] Logout Session
 
 Next Steps:

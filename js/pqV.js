@@ -599,7 +599,91 @@ class ZBar extends Bar {
         super();
     }
 
+    xScale(d) {
+        return d3.scaleBand(d)
+            .domain(d3.range(d.length))
+            .range([this.margin.left, this.width])
+            .padding(0.1);
+    }
+
+    yScale(d) {
+        return d3.scaleLinear()
+            .domain([0, super.maxValue(d)])
+            .range([this.height - this.margin.bottom, this.margin.top]);
+    }
+
     zoomBarChart() {
+        function zoom(svg) {
+            const extent = [[25, 25], [800 - 25, 400 - 25]];
+
+            svg.call(d3.zoom()
+                .scaleExtent([1, 8])
+                .translateExtent(extent)
+                .extent(extent)
+                .on("zoom", zoomed));
+
+            function zoomed() {
+                x.range([25, 800 - 25].map(d => d3.event.transform.applyX(d)));
+                svg.selectAll("rect").attr("x", (d,i) => x(i)).attr("width", x.bandwidth());
+                svg.selectAll(".x-axis").call(xAxis);
+            }
+        }
+
+        super.clearArea();
+        super.genericChart();
+
+        const data = super.toJSON().sort(function (a, b) {
+            return d3.ascending(a.value, b.value);
+        });
+        const max = super.maxValue(data);
+        let svg;
+        if (max > 9999999) {
+            svg = super.svgCreate(-95, 0, 975, this.height);
+        } else if (max > 999999) {
+            svg = super.svgCreate(-65, 0, 925, this.height);
+        } else if (max > 99999) {
+            svg = super.svgCreate(-50, 0, 890, this.height);
+        } else if (max > 9999) {
+            svg = super.svgCreate(-45, 0, 875, this.height);
+        } else if (max > 999) {
+            svg = super.svgCreate(-35, 0, 875, this.height);
+        } else {
+            svg = super.svgCreate(0, 0, 820, this.height);
+        }
+
+        svg.call(zoom);
+        const x = this.xScale(data);
+        const y = this.yScale(data);
+
+        svg
+            .attr('class', 'gbar')
+            .append('g')
+            .selectAll('rect')
+            .data(data)
+            .join('rect')
+            .attr('x', (d, i) => x(i))
+            .attr('y', (d) => y(d.value))
+            .attr('height', d => y(0) - y(d.value))
+            .attr('width', x.bandwidth())
+            .attr('class', 'rectangle')
+            .attr('id', d => d.value);
+
+        function xAxis(g) {
+            g.attr('transform', 'translate(0, 375)')
+                .call(d3.axisBottom(x).tickFormat(i => data[i].name))
+                .attr('font-size', '18px')
+                .attr('class','x-axis')
+        }
+
+        function yAxis(g) {
+            g.attr('transform', 'translate(25, 0)')
+                .call(d3.axisLeft(y).ticks(3, data.format))
+                .attr('font-size', '18px')
+        }
+
+        svg.append('g').call(yAxis);
+        svg.append('g').call(xAxis);
+        svg.node();
 
     }
 
