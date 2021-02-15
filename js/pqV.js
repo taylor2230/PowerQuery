@@ -595,8 +595,8 @@ class SHbar extends Bar {
 }
 
 class ZBar extends Bar {
-    constructor() {
-        super();
+    constructor(d) {
+        super(d);
     }
 
     xScale(d) {
@@ -632,9 +632,8 @@ class ZBar extends Bar {
         super.clearArea();
         super.genericChart();
 
-        const data = super.toJSON().sort(function (a, b) {
-            return d3.ascending(a.value, b.value);
-        });
+        const data = super.toJSON();
+
         const max = super.maxValue(data);
         let svg;
         if (max > 9999999) {

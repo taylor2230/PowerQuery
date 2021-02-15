@@ -84,7 +84,7 @@ function assist() {
         case "zoomable-bar":
             defaultRows(rows, 2);
             message.innerText = "{Zoomable Bar Chart}\n" +
-                "Three Columns :: Parent -> Child Detail & Value";
+                "Two Columns :: Detail & Value";
             document.getElementsByClassName("pq-cmd")[1].disabled = false;
             break;
         case "generic-line":

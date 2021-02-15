@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$USER_HOME$/Documents/Projects/FItHealth/.idea/FItHealth.iml" filepath="$USER_HOME$/Documents/Projects/FItHealth/.idea/FItHealth.iml" />
+      <module fileurl="file://$USER_HOME$/Documents/Projects/FItHealthAPI/.idea/FItHealthAPI.iml" filepath="$USER_HOME$/Documents/Projects/FItHealthAPI/.idea/FItHealthAPI.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/PowerQuery.iml" filepath="$PROJECT_DIR$/.idea/PowerQuery.iml" />
     </modules>
   </component>
